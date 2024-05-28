@@ -9,6 +9,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { JwtModule } from "@auth0/angular-jwt";
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { NavbarComponent } from './components/dashboard/navbar/navbar.component';
+import { VaultComponent } from './components/dashboard/vault/vault.component';
+import { PasswordGeneratorComponent } from './components/dashboard/password-generator/password-generator.component';
+import { SettingsComponent } from './components/dashboard/settings/settings.component';
 
 export function tokenGetter() {
   return sessionStorage.getItem("token");
@@ -18,7 +22,11 @@ export function tokenGetter() {
     AppComponent,
     SignUpFormComponent,
     SignInFormComponent,
-    DashboardComponent
+    DashboardComponent,
+    NavbarComponent,
+    VaultComponent,
+    PasswordGeneratorComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
