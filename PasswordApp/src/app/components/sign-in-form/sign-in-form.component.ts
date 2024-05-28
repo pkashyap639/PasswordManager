@@ -21,6 +21,8 @@ export class SignInFormComponent implements OnInit{
 
   ngOnInit(): void {
     this.createSignUpForm()
+    if(this.auth.checkAuth()) this.router.navigate(['dashboard'])
+
   }
 
   createSignUpForm(){

@@ -19,6 +19,8 @@ export class SignUpFormComponent implements OnInit {
   constructor(private fb:FormBuilder, private auth:AuthService, private router:Router){}
   ngOnInit(): void {
     this.createSignUpForm()
+    if(this.auth.checkAuth()) this.router.navigate(['dashboard'])
+
   }
 
   createSignUpForm(){
