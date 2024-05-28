@@ -9,6 +9,8 @@ namespace PasswordApi.AutoMapper
         public AutoMapperProfile() {
 
             CreateMap<AppUser, CreateUserDTO>().ReverseMap();
+            CreateMap<AppUser, LoginUserDTO>().ReverseMap();
+            CreateMap<AppUser, GetUserDTO>().ReverseMap();
         }
     }
 }
