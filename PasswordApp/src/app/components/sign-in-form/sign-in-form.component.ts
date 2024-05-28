@@ -39,7 +39,7 @@ export class SignInFormComponent implements OnInit{
       }
       this.auth.loginUser(user).subscribe({
         next:(res)=>{
-          
+          this.auth.setSession(res.token)
         },
         error:(err)=>{
           console.error(err);
@@ -51,6 +51,8 @@ export class SignInFormComponent implements OnInit{
         },
         complete:()=>{
           console.log("Completed");
+          this.signInForm.reset()
+          this.router.navigate(['dashboard'])
           this.showLoadingSpinner = false;
           this.showSuccessToast = true;
           setTimeout(() => {
