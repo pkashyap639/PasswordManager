@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using PasswordApi.AutoMapper;
 using PasswordApi.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,8 +14,14 @@ builder.Services.AddDbContext<PasswordContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("PasswordDb"));
 });
-var app = builder.Build();
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
+var app = builder.Build();
+app.UseCors(options =>
+{
+    options.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod();
+});
+app.UseCors("MyPolicy");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
