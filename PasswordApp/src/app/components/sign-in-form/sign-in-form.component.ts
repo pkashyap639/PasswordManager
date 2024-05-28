@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, MaxValidator, Validators } from '@angular/forms';
+import { loginUser } from '../../models/loginUser';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in-form',
@@ -9,7 +12,10 @@ import { FormBuilder, FormGroup, MaxValidator, Validators } from '@angular/forms
 export class SignInFormComponent implements OnInit{
 
   signInForm!:FormGroup;
-  constructor(private fb:FormBuilder) {
+  showLoadingSpinner:boolean = false
+  showSuccessToast = false
+  showErrorToast = false
+  constructor(private fb:FormBuilder, private auth:AuthService, private router:Router) {
     
   }
 
@@ -25,8 +31,33 @@ export class SignInFormComponent implements OnInit{
   }
 
   submitSignInForm(){
+    this.showLoadingSpinner = true
     if(this.signInForm.valid){
-      console.log(this.signInForm.value);
+      var user:loginUser = {
+        UserEmail: this.signInForm.value.UserEmail,
+        Password: this.signInForm.value.Password
+      }
+      this.auth.loginUser(user).subscribe({
+        next:(res)=>{
+          
+        },
+        error:(err)=>{
+          console.error(err);
+          this.showLoadingSpinner = false;
+          this.showErrorToast = true;
+          setTimeout(() => {
+            this.showErrorToast = false;
+          }, 3000);
+        },
+        complete:()=>{
+          console.log("Completed");
+          this.showLoadingSpinner = false;
+          this.showSuccessToast = true;
+          setTimeout(() => {
+            this.showSuccessToast = false;
+          }, 3000);
+        }
+      })
     }
     else{
       console.log("Invalid Form");
