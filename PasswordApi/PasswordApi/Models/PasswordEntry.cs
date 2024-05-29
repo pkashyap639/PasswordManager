@@ -5,7 +5,7 @@ namespace PasswordApi.Models
     public class PasswordEntry
     {
         [Key]
-        public Guid PasswordId { get; set; }
+        public Guid PasswordId { get; set; } = Guid.NewGuid();
         [Required]
         [MaxLength(300)]
         public string SiteName { get; set; }

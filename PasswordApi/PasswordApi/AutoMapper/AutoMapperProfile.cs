@@ -11,6 +11,7 @@ namespace PasswordApi.AutoMapper
             CreateMap<AppUser, CreateUserDTO>().ReverseMap();
             CreateMap<AppUser, LoginUserDTO>().ReverseMap();
             CreateMap<AppUser, GetUserDTO>().ReverseMap();
+            CreateMap<PasswordEntry, AddPassword>().ReverseMap();
         }
     }
 }
