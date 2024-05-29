@@ -35,6 +35,10 @@ export class AuthService {
     this.router.navigate(['signin'])
   }
 
+  getUserId(){
+    return sessionStorage.getItem("UserId")!;
+  }
+
   checkAuth(){
     if(sessionStorage.getItem('token')){
       return true
