@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PasswordApi.Data;
 using PasswordApi.Models;
 using PasswordApi.Models.DTO;
@@ -22,7 +23,7 @@ namespace PasswordApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveNewPassword([FromBody]AddPassword passwordDto)
+        public async Task<IActionResult> SaveNewPassword([FromBody] AddPassword passwordDto)
         {
             // convert dto to domain
             var newPassword = mapper.Map<PasswordEntry>(passwordDto);
@@ -31,11 +32,30 @@ namespace PasswordApi.Controllers
                 var savePwd = await context.PasswordEntries.AddAsync(newPassword);
                 await context.SaveChangesAsync();
                 return Ok(new { Message = "Password Saved" });
-            }catch(Exception ex)
+            } catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            
+
+        }
+
+        [HttpGet]
+        [Route("Id")]
+        public async Task<IActionResult> getVaultData([FromQuery] Guid Id)
+        {
+            try
+            {
+                var vaultData = await context.PasswordEntries.Where(x => x.AppUserId == Id).ToListAsync();
+                if(vaultData == null) {
+                    return BadRequest(new { Message = "No Data Exists" });
+                }
+                return Ok(mapper.Map<List<GetVaultDataDto>>(vaultData));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ErrorMessage = ex.Message });
+            }
+
         }
     }
 }
