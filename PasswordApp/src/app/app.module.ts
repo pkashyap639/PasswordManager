@@ -14,6 +14,7 @@ import { VaultComponent } from './components/dashboard/vault/vault.component';
 import { PasswordGeneratorComponent } from './components/dashboard/password-generator/password-generator.component';
 import { SettingsComponent } from './components/dashboard/settings/settings.component';
 import { VaultModalComponent } from './components/dashboard/vault/vault-modal/vault-modal.component';
+import { VaultTableComponent } from './components/dashboard/vault/vault-table/vault-table.component';
 
 export function tokenGetter() {
   return sessionStorage.getItem("token");
@@ -28,7 +29,8 @@ export function tokenGetter() {
     VaultComponent,
     PasswordGeneratorComponent,
     SettingsComponent,
-    VaultModalComponent
+    VaultModalComponent,
+    VaultTableComponent
   ],
   imports: [
     BrowserModule,

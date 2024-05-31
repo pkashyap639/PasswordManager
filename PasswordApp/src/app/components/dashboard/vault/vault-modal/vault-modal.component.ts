@@ -3,6 +3,7 @@ import { PasswordService } from '../../../../services/password.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AddPasswordEntry } from '../../../../models/AddPasswordEntry';
 import { AuthService } from '../../../../services/auth.service';
+import { GetPassword } from '../../../../models/GetPassword';
 
 @Component({
   selector: 'app-vault-modal',
@@ -14,6 +15,8 @@ export class VaultModalComponent implements OnInit{
   constructor(private password:PasswordService,private fb:FormBuilder, private auth:AuthService){}
   addPasswordForm!:FormGroup;
   showModal = true
+  public passwordDataFromModel:GetPassword[] = []
+
   ngOnInit(): void {
     this.createAddPasswordForm()
   }
@@ -58,7 +61,7 @@ export class VaultModalComponent implements OnInit{
       this.password.addPassword(pwdData).subscribe({
         next:(res)=>{
           console.log(res);
-          
+          this.passwordDataFromModel = res
         },
         error:(err)=>{
           console.log(err);
@@ -67,6 +70,7 @@ export class VaultModalComponent implements OnInit{
         complete:()=>{
           this.addPasswordForm.reset();
           this.showModal = false
+          this.getAllPassword()
         }
       })
       
@@ -78,5 +82,23 @@ export class VaultModalComponent implements OnInit{
       return true
     }
     return false
+  }
+
+  getAllPassword(){
+    this.password.getPasswords(this.auth.getUserId()).subscribe({
+      next:(res)=>{
+        this.passwordDataFromModel = res;
+        console.log(this.passwordDataFromModel);
+        
+        
+      },
+      error:(err)=>{
+        console.log(err);
+        
+      },
+      complete:()=>{
+
+      }
+    })
   }
 }

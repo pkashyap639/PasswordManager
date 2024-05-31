@@ -1,1 +1,6 @@
 <app-vault-modal></app-vault-modal>
+@if (passwordData.length >0) {
+<app-vault-table [passwordTableData]="passwordData" [passwordTableData]="passwordData"></app-vault-table>
+}@else {
+    <h1 class="text-center mt-4"> No Vault Item Yet</h1>
+}
