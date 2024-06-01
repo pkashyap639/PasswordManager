@@ -19,6 +19,18 @@ export class VaultTableComponent implements OnInit{
     
   }
 
+  getAllPasswords(){
+    this.password.getPasswords(this.auth.getUserId()).subscribe({
+      next:(res)=>{
+        this.passwordTableData = res
+      },
+      error:(err)=>{
+        console.log(err);
+        
+      }
+    })
+  }
+
   copyUserPass(VaultId:string, UserId:string){
     this.password.getSinglePassword(VaultId,UserId).subscribe({
       next:(res:any)=>{
@@ -74,6 +86,21 @@ export class VaultTableComponent implements OnInit{
     this.password.getSinglePassword(VaultId,UserId).subscribe({
       next:(res:any)=>{
         window.open(res.url,'_blank')    
+      },
+      error:(err)=>{
+        console.error(err);
+      },
+      complete:()=>{
+
+      }
+    })
+  }
+
+  deletePassword(VaultId:string, UserId:string){
+    this.password.deletePassword(VaultId,UserId).subscribe({
+      next:(res:any)=>{
+        console.log(res);
+        this.getAllPasswords()
       },
       error:(err)=>{
         console.error(err);

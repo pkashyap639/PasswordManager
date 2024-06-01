@@ -46,7 +46,7 @@ namespace PasswordApi.Controllers
             try
             {
                 var vaultData = await context.PasswordEntries.Where(x => x.AppUserId == Id).ToListAsync();
-                if(vaultData == null) {
+                if (vaultData == null) {
                     return BadRequest(new { Message = "No Data Exists" });
                 }
                 return Ok(mapper.Map<List<GetVaultDataDto>>(vaultData));
@@ -70,6 +70,27 @@ namespace PasswordApi.Controllers
                     return BadRequest(new { Message = "No Data Exists" });
                 }
                 return Ok(mapper.Map<GetVaultDataDto>(vaultData));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ErrorMessage = ex.Message });
+            }
+        }
+
+        [HttpDelete]
+        [Route("VaultId/UserId")]
+        public async Task<IActionResult> deletePassword([FromQuery] Guid VaultId, [FromQuery] Guid UserId)
+        {
+            try
+            {
+                var vaultData = await context.PasswordEntries.Where(x => x.AppUserId == UserId && x.PasswordId == VaultId).FirstOrDefaultAsync();
+                if (vaultData == null)
+                {
+                    return BadRequest(new { Message = "No Data Exists" });
+                }
+                context.Remove(vaultData);
+                await context.SaveChangesAsync();
+                return Ok(new { Message = "Data Deleted" });
             }
             catch (Exception ex)
             {
