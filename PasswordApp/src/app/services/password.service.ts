@@ -31,4 +31,8 @@ export class PasswordService {
   deletePassword(VaultId:string, UserId:string):Observable<any>{
     return this.http.delete(`${this.apiUrl}VaultId/UserId?VaultId=${VaultId}&UserId=${UserId}`);
   }
+
+  generatePassword():Observable<any>{
+    return this.http.get(`${this.apiUrl}Generate`);
+  }
 }

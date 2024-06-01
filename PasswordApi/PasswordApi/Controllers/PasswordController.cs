@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using PasswordApi.Data;
 using PasswordApi.Models;
 using PasswordApi.Models.DTO;
+using System.Text;
 
 namespace PasswordApi.Controllers
 {
@@ -101,7 +102,7 @@ namespace PasswordApi.Controllers
         [HttpPut]
         [Route("VaultId/UserId")]
 
-        public async Task<IActionResult> updatePassword([FromQuery] Guid VaultId, [FromQuery] Guid UserId,[FromBody] AddPassword passwordDto)
+        public async Task<IActionResult> updatePassword([FromQuery] Guid VaultId, [FromQuery] Guid UserId, [FromBody] AddPassword passwordDto)
         {
             // convert dto to domain
             var newPassword = mapper.Map<PasswordEntry>(passwordDto);
@@ -131,6 +132,24 @@ namespace PasswordApi.Controllers
                 return BadRequest(ex.Message);
             }
 
+        }
+
+        [HttpGet]
+        [Route("Generate")]
+        public IActionResult generatePassword()
+        {
+             const string ValidChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_";
+
+            var random = new Random();
+            var password = new StringBuilder();
+
+            for (int i = 0; i < 15; i++)
+            {
+                int index = random.Next(ValidChars.Length);
+                password.Append(ValidChars[index]);
+            }
+
+            return Ok(new { password = password.ToString() });
         }
     }
 }
