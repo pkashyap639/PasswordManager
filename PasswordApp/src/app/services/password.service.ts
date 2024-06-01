@@ -19,4 +19,8 @@ export class PasswordService {
   getPasswords(Id:string):Observable<any>{
     return this.http.get(`${this.apiUrl}Id?Id=${Id}`);
   }
+
+  getSinglePassword(VaultId:string, UserId:string):Observable<any>{
+    return this.http.get(`${this.apiUrl}VaultId/UserId?VaultId=${VaultId}&UserId=${UserId}`);
+  }
 }

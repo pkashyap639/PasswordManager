@@ -23,7 +23,7 @@
                 <span class="username">{{ item.username }}</span>
               </th>
               <td class="px-6 py-4">
-                <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Copy</a>
+                <a (click)="copyUserPass(item.passwordId,item.appUserId)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Copy</a>
               </td>
               <td class="px-6 py-4">
                 <button id="dropdownMenuIconHorizontalButton{{i}}" data-dropdown-toggle="dropdown" [attr.data-dropdown-toggle]="'dropdownDots' + i" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
