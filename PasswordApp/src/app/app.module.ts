@@ -16,6 +16,7 @@ import { SettingsComponent } from './components/dashboard/settings/settings.comp
 import { VaultModalComponent } from './components/dashboard/vault/vault-modal/vault-modal.component';
 import { VaultTableComponent } from './components/dashboard/vault/vault-table/vault-table.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { EditVaultComponent } from './components/dashboard/vault/edit-vault/edit-vault.component';
 
 export function tokenGetter() {
   return sessionStorage.getItem("token");
@@ -31,7 +32,8 @@ export function tokenGetter() {
     PasswordGeneratorComponent,
     SettingsComponent,
     VaultModalComponent,
-    VaultTableComponent
+    VaultTableComponent,
+    EditVaultComponent
   ],
   imports: [
     BrowserModule,

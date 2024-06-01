@@ -97,5 +97,40 @@ namespace PasswordApi.Controllers
                 return BadRequest(new { ErrorMessage = ex.Message });
             }
         }
+
+        [HttpPut]
+        [Route("VaultId/UserId")]
+
+        public async Task<IActionResult> updatePassword([FromQuery] Guid VaultId, [FromQuery] Guid UserId,[FromBody] AddPassword passwordDto)
+        {
+            // convert dto to domain
+            var newPassword = mapper.Map<PasswordEntry>(passwordDto);
+            try
+            {
+                var existingPassword = await context.PasswordEntries.FirstOrDefaultAsync(x => x.AppUserId == UserId && x.PasswordId == VaultId);
+
+                if (existingPassword == null)
+                {
+                    return NotFound("Password entry not found.");
+                }
+
+                // Update the properties of the existing password entry
+                existingPassword.SiteName = passwordDto.SiteName;
+                existingPassword.Username = passwordDto.Username;
+                existingPassword.Password = passwordDto.Password;
+                existingPassword.Url = passwordDto.Url;
+                existingPassword.Notes = passwordDto.Notes;
+
+                // Save the changes to the database
+                await context.SaveChangesAsync();
+
+                return Ok(new { Message = "Password updated successfully." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
     }
 }
