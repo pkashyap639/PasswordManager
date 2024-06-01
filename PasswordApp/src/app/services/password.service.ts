@@ -16,6 +16,10 @@ export class PasswordService {
     return this.http.post(this.apiUrl,password);
   }
 
+  updatePassword(VaultId:string, UserId:string,password:AddPasswordEntry):Observable<any>{
+    return this.http.put(`${this.apiUrl}VaultId/UserId?VaultId=${VaultId}&UserId=${UserId}`,password);
+  }
+
   getPasswords(Id:string):Observable<any>{
     return this.http.get(`${this.apiUrl}Id?Id=${Id}`);
   }
