@@ -11,11 +11,12 @@ import { Router } from '@angular/router';
   styleUrl: './vault-table.component.css'
 })
 export class VaultTableComponent implements OnInit{
-  @Input() public passwordTableData:any = []
+    public passwordTableData:any = []
   public singlePassword?:GetPassword;
   constructor(private auth:AuthService, private password:PasswordService, private clipboard:Clipboard, private router:Router){}
   ngOnInit(): void {
     console.log(this.passwordTableData);
+    this.getAllPasswords()
     
   }
 

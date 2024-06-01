@@ -15,7 +15,7 @@ export class VaultModalComponent implements OnInit{
   constructor(private password:PasswordService,private fb:FormBuilder, private auth:AuthService){}
   addPasswordForm!:FormGroup;
   showModal = true
-  public passwordDataFromModel:GetPassword[] = []
+  @Output() public passwordDataFromModel = new EventEmitter();
 
   ngOnInit(): void {
     this.createAddPasswordForm()
@@ -61,7 +61,6 @@ export class VaultModalComponent implements OnInit{
       this.password.addPassword(pwdData).subscribe({
         next:(res)=>{
           console.log(res);
-          this.passwordDataFromModel = res
           this.getAllPassword()
           this.showModal = false
 
@@ -72,6 +71,7 @@ export class VaultModalComponent implements OnInit{
         },
         complete:()=>{
           this.addPasswordForm.reset();
+          
         }
       })
       
@@ -88,7 +88,7 @@ export class VaultModalComponent implements OnInit{
   getAllPassword(){
     this.password.getPasswords(this.auth.getUserId()).subscribe({
       next:(res)=>{
-        //this.passwordDataFromModel = res;
+        this.passwordDataFromModel.emit(res)
         console.log(this.passwordDataFromModel);
         
       },
