@@ -7,4 +7,5 @@ export interface GetPassword{
   Notes :string
   CreatedAt :Date
   UpdatedAt :Date
+  AppUserId: string
 }

@@ -15,6 +15,7 @@ import { PasswordGeneratorComponent } from './components/dashboard/password-gene
 import { SettingsComponent } from './components/dashboard/settings/settings.component';
 import { VaultModalComponent } from './components/dashboard/vault/vault-modal/vault-modal.component';
 import { VaultTableComponent } from './components/dashboard/vault/vault-table/vault-table.component';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 export function tokenGetter() {
   return sessionStorage.getItem("token");
@@ -37,6 +38,7 @@ export function tokenGetter() {
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    ClipboardModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

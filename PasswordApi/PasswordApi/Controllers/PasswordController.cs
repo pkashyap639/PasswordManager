@@ -57,5 +57,24 @@ namespace PasswordApi.Controllers
             }
 
         }
+
+        [HttpGet]
+        [Route("VaultId/UserId")]
+        public async Task<IActionResult> getSingleVaultData([FromQuery] Guid VaultId, [FromQuery] Guid UserId)
+        {
+            try
+            {
+                var vaultData = await context.PasswordEntries.Where(x => x.AppUserId == UserId && x.PasswordId == VaultId).FirstOrDefaultAsync();
+                if (vaultData == null)
+                {
+                    return BadRequest(new { Message = "No Data Exists" });
+                }
+                return Ok(mapper.Map<GetVaultDataDto>(vaultData));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ErrorMessage = ex.Message });
+            }
+        }
     }
 }
