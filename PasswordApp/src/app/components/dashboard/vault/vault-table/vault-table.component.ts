@@ -3,6 +3,7 @@ import { GetPassword } from '../../../../models/GetPassword';
 import { AuthService } from '../../../../services/auth.service';
 import { PasswordService } from '../../../../services/password.service';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vault-table',
@@ -12,7 +13,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 export class VaultTableComponent implements OnInit{
   @Input() public passwordTableData:any = []
   public singlePassword?:GetPassword;
-  constructor(private auth:AuthService, private password:PasswordService, private clipboard:Clipboard){}
+  constructor(private auth:AuthService, private password:PasswordService, private clipboard:Clipboard, private router:Router){}
   ngOnInit(): void {
     console.log(this.passwordTableData);
     
@@ -41,5 +42,46 @@ export class VaultTableComponent implements OnInit{
     
   }
 
+  copyOnlyUsername(VaultId:string, UserId:string){
+    this.password.getSinglePassword(VaultId,UserId).subscribe({
+      next:(res:any)=>{
+        this.clipboard.copy(res.username )        
+      },
+      error:(err)=>{
+        console.error(err);
+      },
+      complete:()=>{
+
+      }
+    })
+  }
+
+  copyOnlyPassword(VaultId:string, UserId:string){
+    this.password.getSinglePassword(VaultId,UserId).subscribe({
+      next:(res:any)=>{
+        this.clipboard.copy(res.password )        
+      },
+      error:(err)=>{
+        console.error(err);
+      },
+      complete:()=>{
+
+      }
+    })
+  }
+
+  launch(VaultId:string, UserId:string){
+    this.password.getSinglePassword(VaultId,UserId).subscribe({
+      next:(res:any)=>{
+        window.open(res.url,'_blank')    
+      },
+      error:(err)=>{
+        console.error(err);
+      },
+      complete:()=>{
+
+      }
+    })
+  }
 
 }
