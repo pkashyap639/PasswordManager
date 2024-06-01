@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { PasswordService } from '../../../../services/password.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AddPasswordEntry } from '../../../../models/AddPasswordEntry';
@@ -62,6 +62,9 @@ export class VaultModalComponent implements OnInit{
         next:(res)=>{
           console.log(res);
           this.passwordDataFromModel = res
+          this.getAllPassword()
+          this.showModal = false
+
         },
         error:(err)=>{
           console.log(err);
@@ -69,8 +72,6 @@ export class VaultModalComponent implements OnInit{
         },
         complete:()=>{
           this.addPasswordForm.reset();
-          this.showModal = false
-          this.getAllPassword()
         }
       })
       
@@ -87,9 +88,8 @@ export class VaultModalComponent implements OnInit{
   getAllPassword(){
     this.password.getPasswords(this.auth.getUserId()).subscribe({
       next:(res)=>{
-        this.passwordDataFromModel = res;
+        //this.passwordDataFromModel = res;
         console.log(this.passwordDataFromModel);
-        
         
       },
       error:(err)=>{

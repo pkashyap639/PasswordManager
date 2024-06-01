@@ -23,4 +23,8 @@ export class PasswordService {
   getSinglePassword(VaultId:string, UserId:string):Observable<any>{
     return this.http.get(`${this.apiUrl}VaultId/UserId?VaultId=${VaultId}&UserId=${UserId}`);
   }
+
+  deletePassword(VaultId:string, UserId:string):Observable<any>{
+    return this.http.delete(`${this.apiUrl}VaultId/UserId?VaultId=${VaultId}&UserId=${UserId}`);
+  }
 }
