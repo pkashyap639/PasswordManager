@@ -29,6 +29,26 @@ namespace PasswordApi.Controllers
             this.builder = builder;
         }
 
+        [HttpGet]
+        [Route("id")]
+        public async Task<IActionResult> getProfileData([FromQuery]Guid id)
+        {
+            try
+            {
+                var checkUserExists = await context.AppUsers.Where(x => x.AppUserId == id).FirstOrDefaultAsync();
+                if (checkUserExists == null)
+                {
+                    return BadRequest("User Not Found");
+                }
+                return Ok(mapper.Map<CreateUserDTO>(checkUserExists));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> CreateAccount([FromBody] CreateUserDTO UserDetails)
         {
@@ -121,6 +141,31 @@ namespace PasswordApi.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Route("id")]
+        public async Task<IActionResult> updateProfile([FromQuery] Guid id, [FromBody] UpdateUserDTO userDto)
+        {
+            try
+            {
+                var existingUser = await context.AppUsers.Where(x => x.AppUserId == id).FirstOrDefaultAsync();
+                if (existingUser == null)
+                {
+                    return NotFound("User not found.");
+                }
+                existingUser.UserName = userDto.UserName;
+                existingUser.UserEmail = userDto.UserEmail;
+                existingUser.Password = userDto.Password;
+                // Save the changes to the database
+                await context.SaveChangesAsync();
+
+                return Ok(new { Message = "Profile updated successfully." });
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
             }
         }
     }

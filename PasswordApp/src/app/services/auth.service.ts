@@ -18,8 +18,15 @@ export class AuthService {
     return this.http.post(this.apiUrl,user);
   }
 
+  getUserProfile(id:string):Observable<any>{
+    return this.http.get(`${this.apiUrl}id?id=${id}`);
+  }
   loginUser(user:loginUser):Observable<any>{
     return this.http.post(`${this.apiUrl}signin/`,user)
+  }
+
+  updateProfile(Id:string,user:createUser):Observable<any>{
+    return this.http.put(`${this.apiUrl}/id?id=${Id}`,user);
   }
 
   setSession(token:any){
