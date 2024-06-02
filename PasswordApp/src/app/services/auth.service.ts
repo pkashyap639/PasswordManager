@@ -26,7 +26,7 @@ export class AuthService {
   }
 
   updateProfile(Id:string,user:createUser):Observable<any>{
-    return this.http.put(`${this.apiUrl}/id?id=${Id}`,user);
+    return this.http.put(`${this.apiUrl}id?id=${Id}`,user);
   }
 
   setSession(token:any){
