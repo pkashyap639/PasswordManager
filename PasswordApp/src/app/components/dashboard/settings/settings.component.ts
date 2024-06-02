@@ -37,7 +37,7 @@ export class SettingsComponent implements OnInit{
   updateProfile(){
     if(this.updateProfileForm.valid){
       const userData:createUser = {
-        UserName: this.updateProfileForm.value.UserEmail,
+        UserName: this.updateProfileForm.value.UserName,
         UserEmail: this.updateProfileForm.value.UserEmail,
         Password: this.updateProfileForm.value.Password
       }
@@ -50,6 +50,9 @@ export class SettingsComponent implements OnInit{
       error:(err)=>{
         console.error(err);
         
+      },
+      complete:()=>{
+        this.router.navigate(['dashboard'])
       }
     })
     }
@@ -58,10 +61,11 @@ export class SettingsComponent implements OnInit{
   getCurrentUser(){
     this.auth.getUserProfile(this.auth.getUserId()).subscribe({
       next:(res)=>{
+        console.log(res);
+        
         this.updateProfileForm.patchValue({
-          UserName: res.username,
-          UserEmail: res.password,
-          Password: res.password
+          UserName: res.userName,
+          UserEmail: res.userEmail,
         })
       },
       error:(err)=>{

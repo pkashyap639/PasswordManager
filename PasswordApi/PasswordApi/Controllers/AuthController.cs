@@ -40,7 +40,7 @@ namespace PasswordApi.Controllers
                 {
                     return BadRequest("User Not Found");
                 }
-                return Ok(mapper.Map<CreateUserDTO>(checkUserExists));
+                return Ok(mapper.Map<SendProfileDTO>(checkUserExists));
             }
             catch (Exception ex)
             {
@@ -157,7 +157,7 @@ namespace PasswordApi.Controllers
                 }
                 existingUser.UserName = userDto.UserName;
                 existingUser.UserEmail = userDto.UserEmail;
-                existingUser.Password = userDto.Password;
+                existingUser.Password = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
                 // Save the changes to the database
                 await context.SaveChangesAsync();
 
